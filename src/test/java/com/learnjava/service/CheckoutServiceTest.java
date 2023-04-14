@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import com.learnjava.domain.checkout.Cart;
 import com.learnjava.domain.checkout.CheckoutResponse;
 import com.learnjava.domain.checkout.CheckoutStatus;
+import com.learnjava.util.CommonUtil;
 import com.learnjava.util.DataSet;
 
 class CheckoutServiceTest {
@@ -17,8 +18,25 @@ class CheckoutServiceTest {
 	@Test
 	void checkout_6_items() {
 
+		CommonUtil.stopWatch.reset();
+
 		//given
-		Cart cart = DataSet.createCart(25);
+		Cart cart = DataSet.createCart(6);
+
+		//when
+		CheckoutResponse checkoutResponse = checkoutService.checkout(cart);
+
+		//then
+		assertEquals(checkoutResponse.getCheckoutStatus(), CheckoutStatus.SUCCESS);
+		assertTrue(checkoutResponse.getFinalRate() > 0);
+	}
+
+	@Test
+	void checkout_15_items() {
+
+		CommonUtil.stopWatch.reset();
+		//given
+		Cart cart = DataSet.createCart(15);
 
 		//when
 		CheckoutResponse checkoutResponse = checkoutService.checkout(cart);
